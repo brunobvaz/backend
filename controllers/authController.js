@@ -137,7 +137,9 @@ exports.resendActivation = async (req, res) => {
     user.activationExpires = Date.now() + 24 * 60 * 60 * 1000;
     await user.save();
 
-    const link = `http://localhost:3001/api/auth/activate?token=${token}`;
+    //const link = `http://localhost:3001/api/auth/activate?token=${token}`;
+    
+    const link = `https://menumentapp.com/api/auth/activate?token=${token}`;
 
     await transporter.sendMail({
       from: '"Menument" <info@menumentapp.com>', // ← ESSENCIAL
