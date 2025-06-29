@@ -46,7 +46,9 @@ exports.register = async (req, res) => {
       activationExpires,
     });
 
-    const activationLink = `http://localhost:3001/api/auth/activate?token=${token}`;
+   // const activationLink = `http://localhost:3001/api/auth/activate?token=${token}`;
+
+     const activationLink  = `https://menumentapp.com/api/auth/activate?token=${token}`;
 
     await transporter.sendMail({
       from: '"Menument" <info@menumentapp.com>', // ← ESSENCIAL
