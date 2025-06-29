@@ -20,10 +20,23 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 
 // Middleware para CORS com cookies
+const allowedOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:5173',
+  'http://localhost:8081' // origem do React Native
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Permitir chamadas sem origem (ex: postman) ou se estiver na lista
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Origem não permitida pelo CORS'));
+    }
+  },
   credentials: true,
 }));
+
 
 // Middlewares básicos
 app.use(cookieParser()); // necessário para ler cookies HttpOnly

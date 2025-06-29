@@ -174,7 +174,7 @@ exports.activateWithRedirect = async (req, res) => {
     user.activationExpires = undefined;
     await user.save();
 
-    return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?activated=true`);
+    return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/account-activated`);
   } catch (err) {
     console.error(err);
     return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?activated=error`);
