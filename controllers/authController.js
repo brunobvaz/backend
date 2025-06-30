@@ -46,10 +46,13 @@ exports.register = async (req, res) => {
       activationExpires,
     });
 
+    console.log("token register", token)
+
    // const activationLink = `http://localhost:3001/api/auth/activate?token=${token}`;
+   
 
      const activationLink  = `https://menumentapp.com/api/auth/activate?token=${token}`;
-
+console.log("activationloink", activationLink)
     await transporter.sendMail({
       from: '"Menument" <info@menumentapp.com>', // ← ESSENCIAL
       to: email,
@@ -96,6 +99,7 @@ exports.login = async (req, res) => {
     });
 
     res.json({
+      token: user.token,
       name: user.name,
       email: user.email,
       perfil: user.perfil,
@@ -163,6 +167,8 @@ exports.resendActivation = async (req, res) => {
 exports.activateWithRedirect = async (req, res) => {
   try {
     const { token } = req.query;
+
+    console.log("token", token)
 
     const user = await User.findOne({
       activationToken: token,
