@@ -91,15 +91,9 @@ exports.login = async (req, res) => {
     }
 
     const token = createToken(user._id);
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: false, // coloca true em produção com HTTPS
-      sameSite: 'lax',
-      maxAge,
-    });
 
     res.json({
-      token: user.token,
+      token: token,
       name: user.name,
       email: user.email,
       perfil: user.perfil,
