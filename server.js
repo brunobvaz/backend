@@ -14,20 +14,17 @@ const ingredientRoutes = require('./routes/ingredientRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-
-
 // Inicializar app
 const app = express();
 
-// Middleware para CORS com cookies
+// ⚙️ CORS configurado com suporte a cookies
 const allowedOrigins = [
   process.env.CLIENT_URL || 'http://localhost:5173',
-  'http://localhost:8081' // origem do React Native
+  'http://localhost:8081', // origem do React Native
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Permitir chamadas sem origem (ex: postman) ou se estiver na lista
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -37,31 +34,32 @@ app.use(cors({
   credentials: true,
 }));
 
-
-// Middlewares básicos
-app.use(cookieParser()); // necessário para ler cookies HttpOnly
+// 🔐 Middlewares essenciais
+app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Servir imagens da pasta uploads
+// 🖼️ Servir a pasta "uploads" publicamente
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Definir rotas
+// 📦 Rotas da API
 app.use('/api/auth', authRoutes);
 app.use('/api/ingredients', ingredientRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/users', userRoutes);
 
-// Conectar à base de dados MongoDB e iniciar servidor
+// 🚀 Conectar MongoDB e iniciar o servidor
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
 .then(() => {
   console.log('✅ MongoDB conectado com sucesso');
+
   const port = process.env.PORT || 3001;
   app.listen(port, () => {
     console.log(`🚀 Servidor a correr em http://localhost:${port}`);
+    console.log(`📂 Pasta pública disponível em http://localhost:${port}/uploads`);
   });
 })
 .catch((err) => {
