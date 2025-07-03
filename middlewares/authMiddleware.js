@@ -1,8 +1,14 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
+  // Tenta obter o token do cookie
+  let token = req.cookies?.token;
+
+  // Se não tiver cookie, tenta no cabeçalho Authorization (usado na app)
+  if (!token && req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
+  }
 
   if (!token) {
     return res.status(401).json({ message: 'Token não fornecido.' });
@@ -16,5 +22,6 @@ module.exports = (req, res, next) => {
     return res.status(403).json({ message: 'Token inválido ou expirado.' });
   }
 };
+
 
 

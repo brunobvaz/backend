@@ -83,7 +83,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: 'Credenciais inválidas' });
     }
 
-    // 🔐 Verificar se a conta está ativada
+    // 🔐 Verifica se conta está ativada
     if (user.status !== 'active') {
       return res.status(403).json({
         message: 'A conta ainda não foi ativada. Verifique o seu email.'
@@ -92,8 +92,17 @@ exports.login = async (req, res) => {
 
     const token = createToken(user._id);
 
+    // Cookie para o site
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true, // true em produção (HTTPS)
+      sameSite: 'None', // para permitir cookies entre domínios
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias
+    });
+
+    // Resposta também inclui o token para a app
     res.json({
-      token: token,
+      token,
       name: user.name,
       email: user.email,
       perfil: user.perfil,
@@ -105,6 +114,7 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Erro ao autenticar' });
   }
 };
+
 
 
 exports.logout = (req, res) => {
