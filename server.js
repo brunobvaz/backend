@@ -19,6 +19,8 @@ app.use(cors({
 // Rotas
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/recipes', require('./routes/recipeRoutes'));
+app.use('/api/ingredients', require('./routes/ingredientRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 // ... outras rotas
 
 // Conexão à base de dados e arranque do servidor
