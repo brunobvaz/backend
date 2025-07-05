@@ -9,5 +9,5 @@ const storage = multer.diskStorage({
 
 module.exports = multer({
   storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB
+  limits: { fileSize: 10 * 1024 * 1024 }, // 2 MB
 }).single('photo');
