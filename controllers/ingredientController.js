@@ -10,6 +10,7 @@ exports.createIngredient = async (req, res) => {
       unit: req.body.unit,
       quantity: req.body.quantity,
       color: req.body.color,
+      textColor: req.body.textColor,
       type: req.body.type,
       image,
       status: req.body.status !== undefined ? req.body.status : true,

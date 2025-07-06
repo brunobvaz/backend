@@ -13,6 +13,7 @@ const ingredientSchema = new mongoose.Schema({
   unit: String,
   quantity: String,
   color: String,
+  textColor: String, 
   type: String,
   nutritions: nutritionSchema,
   image: String,
